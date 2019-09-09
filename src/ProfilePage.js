@@ -37,14 +37,15 @@ class ProfilePage extends Component {
 
   render() {
     // console.log(this.state)
-    const gifs = this.state.gifs.map(gif => <img src={gif.url}/>) 
+    const gifs = this.state.gifs.map(gif => <img src={gif.url} width={600}/>) 
     return (
       <div>
         <button onClick={this.handleClick}>Logout</button>
         <button onClick={this.backToCanvas}>Back to Canvas</button>
         {
           this.props.username ?
-          <h1>Welcome {this.state.currentUser.username}!</h1> :
+          <div><h1>Welcome {this.state.currentUser.username}!</h1>
+          <h2>Your favorite gifs:</h2></div> :
           <h1>getting your info...</h1>
         }
         {gifs}
