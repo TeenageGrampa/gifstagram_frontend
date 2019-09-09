@@ -1,26 +1,109 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Canvas from './Canvas'
+import HomePage from './HomePage.js';
+import LoginPage from './LoginPage';
+import SignUpPage from './SignUpPage';
+import ProfilePage from './ProfilePage'
+import SearchBar from './SearchBar'
+import { Switch, Route, withRouter } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+class App extends React.Component {
+
+  state={
+    username: '',
+    currentGif: '',
+    search: '',
+    currentCursor: 'potion'
+  }
+
+  componentDidMount(){
+    if (localStorage.token) {
+      fetch('http://localhost:3000/profile',{
+        headers: {
+          'Authorization': `Bearer ${localStorage.token}`
+        }
+      })
+      .then(res => res.json())
+      .then(user => this.setState({username: user.username}))
+    } else {
+      this.props.history.push('/canvas')
+    }
+      const mykey = 'ubRdaXWka1QsuEicM124SxibfeWjCLTC'
+      if(this.state.search){
+          const term = this.state.search
+          fetch(`https://api.giphy.com/v1/gifs/random?api_key=${mykey}&tag=${term}&limit=1`).then(r => r.json()).then(
+              gifData =>  this.setState({
+              currentGif: gifData.data.image_url
+          }))
+      } else {
+          fetch(`https://api.giphy.com/v1/gifs/random?api_key=${mykey}&limit=1`).then(r => r.json()).then(
+              gifData => this.setState({
+              currentGif: gifData.data.image_url
+          }))
+      }
+      
+  }
+
+
+
+  handleClick = () =>{
+      const mykey = 'ubRdaXWka1QsuEicM124SxibfeWjCLTC'
+      if(this.state.search){
+          const term = this.state.search
+          fetch(`https://api.giphy.com/v1/gifs/random?api_key=${mykey}&tag=${term}&limit=1`).then(r => r.json()).then(
+              gifData =>  this.setState({
+              currentGif: gifData.data.image_url,
+              search: term
+          }))
+      } else {
+          fetch(`https://api.giphy.com/v1/gifs/random?api_key=${mykey}&limit=1`).then(r => r.json()).then(
+              gifData => this.setState({
+              currentGif: gifData.data.image_url
+          }))
+      }
+  }
+
+  handleSearch = (term) =>{
+    const mykey = 'ubRdaXWka1QsuEicM124SxibfeWjCLTC'
+    this.setState({
+      search: term
+    })
+    fetch(`https://api.giphy.com/v1/gifs/random?api_key=${mykey}&tag=${term}&limit=1`).then(r => r.json()).then(
+              gifData =>  this.setState({
+              currentGif: gifData.data.image_url,
+              search: term
+    }))
+    
+  }
+
+  handleCursor = (cursor) =>{
+    this.setState({
+      currentCursor: cursor
+    })
+  }
+
+
+  render(){
+    return (
+      <Switch>
+        <Route
+          path={'/profile'}
+          render={routerProps => <ProfilePage {...routerProps} username={this.state.username}/>} />
+        <Route
+          path={'/canvas'}
+          render={routerProps => 
+          <Canvas {...routerProps} handleClick={this.handleClick} handleSearch={this.handleSearch} handleCursor={this.handleCursor} currentGif={this.state.currentGif} currentCursor={this.state.currentCursor}/>
+          // <SearchBar handleSearch={this.handleSearch} handleCursor={this.handleCursor}/>
+          }/>
+        <Route path={'/login'} component={LoginPage} />
+        <Route path={'/signup'} component={SignUpPage} />
+        <Route path={'/'} component={HomePage} />
+      </Switch>
+    );
+  }
 }
 
-export default App;
+export default withRouter(App)
