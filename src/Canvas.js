@@ -3,13 +3,41 @@ import SearchBar from './SearchBar'
 
 export default class Canvas extends React.Component{
 
+    state = {
+        currentUser: {}
+    }
+
     handleClick = () => {
         localStorage.clear()
         this.props.history.push('/login')
     }
 
+    componentDidMount(){
+        fetch('http://localhost:3000/profile',{
+        headers: {
+          'Authorization': `Bearer ${localStorage.token}`
+        }
+        })
+        .then(res => res.json())
+        .then(user => this.setState({
+            currentUser: user
+        }))
+    }
+
     handleLike = () => {
-        console.log('like')
+        fetch('http://localhost:3000/gifs', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+          {
+              url: this.props.currentGif,
+              user_id: this.state.currentUser.id
+          }
+      )
+    }).then(r => r.json()).then(console.log)
     }
 
 
@@ -25,7 +53,7 @@ export default class Canvas extends React.Component{
             style={{ backgroundImage: `url(${image})`}} 
             className={this.props.currentCursor}/>
             <SearchBar handleSearch={this.props.handleSearch} handleCursor={this.props.handleCursor}/>
-            <button onCLick={this.handleLike}>Like</button><button onClick={this.handleClick}>Logout</button>
+            <button onClick={this.handleLike}>Like</button><button onClick={this.handleClick}>Logout</button>
             {/* {, backgroundSize: 'cover'} */}
         </div>
         )
