@@ -40,6 +40,10 @@ export default class Canvas extends React.Component{
     }).then(r => r.json()).then(console.log)
     }
 
+    profileButton = () => {
+        this.props.history.push('./profile')
+    }
+
 
     render(){
         const image = `${this.props.currentGif}`
@@ -53,7 +57,7 @@ export default class Canvas extends React.Component{
             style={{ backgroundImage: `url(${image})`}} 
             className={this.props.currentCursor}/>
             <SearchBar handleSearch={this.props.handleSearch} handleCursor={this.props.handleCursor}/>
-            <button onClick={this.handleLike}>Like</button><button onClick={this.handleClick}>Logout</button>
+            <button onClick={this.handleLike}>Like</button><button onClick={this.profileButton}>Go To Profile</button><button onClick={this.handleClick}>Logout</button>
             {/* {, backgroundSize: 'cover'} */}
         </div>
         )

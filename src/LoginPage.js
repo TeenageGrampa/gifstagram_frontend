@@ -37,7 +37,7 @@ class LoginPage extends Component {
         <h1>Log in please!</h1>
         <form onSubmit={this.handleSubmit}>
           <input onChange={this.handleChange} value={this.state.username} type="text" name="username"/>
-          <input onChange={this.handleChange} value={this.state.password} type="text" name="password"/>
+          <input onChange={this.handleChange} value={this.state.password} type="password" name="password"/>
           <input type="submit" value="Log in"/>
         </form>
       </div>
