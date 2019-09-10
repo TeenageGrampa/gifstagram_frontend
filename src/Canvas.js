@@ -4,12 +4,13 @@ import SearchBar from './SearchBar'
 export default class Canvas extends React.Component{
 
     state = {
-        currentUser: {}
+        currentUser: {},
+
     }
 
     handleClick = () => {
         localStorage.clear()
-        this.props.history.push('/login')
+        this.props.history.push('/')
     }
 
     componentDidMount(){
@@ -33,19 +34,34 @@ export default class Canvas extends React.Component{
       },
       body: JSON.stringify(
           {
-              url: this.props.currentGif,
-              user_id: this.state.currentUser.id
+              url: this.props.currentGif
           }
       )
-    }).then(r => r.json()).then(console.log)
-    }
+    }).then(r => r.json()).then(data => {
+        fetch('http://localhost:3000/likes', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+             gif_id: data.id,
+             user_id: this.state.currentUser.id   
+            })
+        }).then(r => r.json()).then(console.log)})}
+    
 
     profileButton = () => {
         this.props.history.push('./profile')
     }
 
+    gotToFeed = () =>{
+        this.props.history.push('./feed')
+    }
+
 
     render(){
+        console.log(this.state.currentUser)
         const image = `${this.props.currentGif}`
         return(
         <div>
@@ -57,7 +73,10 @@ export default class Canvas extends React.Component{
             style={{ backgroundImage: `url(${image})`}} 
             className={this.props.currentCursor}/>
             <SearchBar handleSearch={this.props.handleSearch} handleCursor={this.props.handleCursor}/>
-            <button onClick={this.handleLike}>Like</button><button onClick={this.profileButton}>Go To Profile</button><button onClick={this.handleClick}>Logout</button>
+            <button onClick={this.handleLike}>Like</button>
+            <button onClick={this.profileButton}>Go To Profile</button>
+            <button onClick={this.gotToFeed}>Go To Feed</button>
+            <button onClick={this.handleClick}>Logout</button>
             {/* {, backgroundSize: 'cover'} */}
         </div>
         )

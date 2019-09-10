@@ -5,8 +5,11 @@ class HomePage extends Component {
   render () {
     return (
       <div>
-        Gifstagram
-        <ul>
+        <h1 id="gifLogo">Gifstagram</h1>
+        <img src="https://fortunedotcom.files.wordpress.com/2016/02/giphy-3.gif" 
+          width='900'
+          height='600' alt=""/>
+        <ul id="main-menu">
         <li><Link to="/login">Go to Login</Link></li>
         <li><Link to="/signup">Go to Signup</Link></li>
         </ul>

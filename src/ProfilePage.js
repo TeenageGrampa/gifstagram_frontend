@@ -29,18 +29,24 @@ class ProfilePage extends Component {
 
   handleClick = () => {
     localStorage.clear()
-    this.props.history.push('/login')
+    this.props.history.push('/')
   }
+
   backToCanvas = () => {
     this.props.history.push('./canvas')
   }
 
+  gotToFeed = () =>{
+    this.props.history.push('./feed')
+}
+
   render() {
     // console.log(this.state)
-    const gifs = this.state.gifs.map(gif => <img src={gif.url} width={600}/>) 
+    const gifs = this.state.gifs.map(gif => <img key={gif.id} src={gif.url} width={600} alt=""/>) 
     return (
       <div>
         <button onClick={this.handleClick}>Logout</button>
+        <button onClick={this.gotToFeed}>Go To Feed</button>
         <button onClick={this.backToCanvas}>Back to Canvas</button>
         {
           this.props.username ?

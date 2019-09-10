@@ -41,6 +41,12 @@ canvas{
   display: none;
 }
 
-/* http://novask.in/4755302427656192.png */
-/* http://pngimg.com/uploads/cursor/cursor_PNG76.png */
-/* https://raw.githubusercontent.com/meteormanaged/neko-atsume-slack-emojis/master/kitties/bobthecat.png */
+#gifLogo {
+  text-align: center;
+}
+
+#main-menu{
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}

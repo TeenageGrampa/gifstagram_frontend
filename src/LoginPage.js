@@ -31,6 +31,10 @@ class LoginPage extends Component {
     })
   }
 
+  handleClick = () => {
+    this.props.history.push('./signup')
+  }
+
   render() {
     return (
       <div>
@@ -40,6 +44,9 @@ class LoginPage extends Component {
           <input onChange={this.handleChange} value={this.state.password} type="password" name="password"/>
           <input type="submit" value="Log in"/>
         </form>
+        <p>Or Sign UP:
+          <button onClick={this.handleClick}>Sign Up</button>
+        </p>
       </div>
     );
   }

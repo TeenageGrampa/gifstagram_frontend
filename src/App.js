@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Canvas from './Canvas'
+import Canvas from './Canvas';
 import HomePage from './HomePage.js';
 import LoginPage from './LoginPage';
 import SignUpPage from './SignUpPage';
-import ProfilePage from './ProfilePage'
-import SearchBar from './SearchBar'
+import ProfilePage from './ProfilePage';
+import Feed from './Feed';
 import { Switch, Route, withRouter } from 'react-router-dom'
 
 
@@ -100,6 +100,7 @@ class App extends React.Component {
           }/>
         <Route path={'/login'} component={LoginPage} />
         <Route path={'/signup'} component={SignUpPage} />
+        <Route path={'/feed'} component={Feed} />
         <Route path={'/'} component={HomePage} />
       </Switch>
     );
