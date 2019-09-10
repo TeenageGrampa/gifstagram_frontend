@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Image from './Image'
 
 class ProfilePage extends Component {
 
@@ -38,11 +39,13 @@ class ProfilePage extends Component {
 
   gotToFeed = () =>{
     this.props.history.push('./feed')
-}
+  }
+
 
   render() {
     // console.log(this.state)
-    const gifs = this.state.gifs.map(gif => <img key={gif.id} src={gif.url} width={600} alt=""/>) 
+    const gifs = this.state.gifs.map(gif => <Image key={gif.id} gif={gif} width={600}/>) 
+      // console.log(this.state.gifs)
     return (
       <div>
         <button onClick={this.handleClick}>Logout</button>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Image from './Image'
 
 export default class Feed extends React.Component {
 
@@ -24,8 +25,8 @@ export default class Feed extends React.Component {
     }
 
     render() {
-        console.log(this.state)
-        const gifs = this.state.gifs.map(gif => <img key={gif.id} src={gif.url} width={600} alt=""/>) 
+        // console.log(this.state)
+        const gifs = this.state.gifs.map(gif => <Image key={gif.id} currentUser={this.props.currentUser} gif={gif} width={600}/>) 
         return (
           <div>
             <button onClick={this.handleClick}>Logout</button>

@@ -13,6 +13,7 @@ import { Switch, Route, withRouter } from 'react-router-dom'
 class App extends React.Component {
 
   state={
+    currentUser: {},
     username: '',
     currentGif: '',
     search: '',
@@ -27,7 +28,7 @@ class App extends React.Component {
         }
       })
       .then(res => res.json())
-      .then(user => this.setState({username: user.username}))
+      .then(user => this.setState({currentUser: user, username: user.username}))
     } else {
       this.props.history.push('/canvas')
     }
@@ -100,7 +101,7 @@ class App extends React.Component {
           }/>
         <Route path={'/login'} component={LoginPage} />
         <Route path={'/signup'} component={SignUpPage} />
-        <Route path={'/feed'} component={Feed} />
+        <Route path={'/feed'} render={routerProps => <Feed {...routerProps} currentUser={this.state.currentUser}/>}/>
         <Route path={'/'} component={HomePage} />
       </Switch>
     );
