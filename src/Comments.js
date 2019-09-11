@@ -16,7 +16,7 @@ export default class Comments extends React.Component{
 
     componentDidMount(){
         this.setState({
-            comments: this.props.gif.comments
+            comments: this.props.comments
         })
     }
 
@@ -34,7 +34,8 @@ export default class Comments extends React.Component{
             body: JSON.stringify({
                 gif_id: this.props.gif.id,
                 user_id: this.props.currentUser.id,
-                content: newComment
+                content: newComment, 
+                author: this.props.currentUser.username
             })
         }).then(r => r.json()).then(data => this.setState({
             comments: [...this.state.comments, data],
@@ -42,10 +43,24 @@ export default class Comments extends React.Component{
         }))
     }
 
+    deleteClick = (e) => {
+        const deletedComment = e.target.parentElement
+        deletedComment.remove()
+         
+        console.log(deletedComment)
+        fetch(`http://localhost:3000/comments/${e.target.value}`,{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(r => r.json()).then()
+    }
+
 
     render(){
-        console.log(this.props.gif.comments)
-        const comments = this.state.comments.map(comment => <li key={comment.id}>{comment.content}</li>)
+        console.log(this.state.comments)
+        const comments = this.state.comments.map(comment => <li key={comment.id}>{comment.content} - {comment.author} <button value={comment.id} onClick={this.deleteClick}>X</button></li>)
         return(
             <div>
                 <p>comments:</p>

@@ -7,6 +7,7 @@ import SignUpPage from './SignUpPage';
 import ProfilePage from './ProfilePage';
 import Feed from './Feed';
 import { Switch, Route, withRouter } from 'react-router-dom'
+import FourOhFourPage from './FourOhFourPage'
 
 
 
@@ -30,7 +31,7 @@ class App extends React.Component {
       .then(res => res.json())
       .then(user => this.setState({currentUser: user, username: user.username}))
     } else {
-      this.props.history.push('/canvas')
+      this.props.history.push('/')
     }
       const mykey = 'ubRdaXWka1QsuEicM124SxibfeWjCLTC'
       if(this.state.search){
@@ -88,21 +89,23 @@ class App extends React.Component {
 
 
   render(){
+    // console.log(this.state.currentUser)
     return (
       <Switch>
         <Route
           path={'/profile'}
-          render={routerProps => <ProfilePage {...routerProps} username={this.state.username}/>} />
+          render={routerProps => <ProfilePage {...routerProps} currentUser={this.state.currentUser}/>} />
         <Route
           path={'/canvas'}
           render={routerProps => 
-          <Canvas {...routerProps} handleClick={this.handleClick} handleSearch={this.handleSearch} handleCursor={this.handleCursor} currentGif={this.state.currentGif} currentCursor={this.state.currentCursor}/>
+          <Canvas {...routerProps} handleClick={this.handleClick} handleSearch={this.handleSearch} handleCursor={this.handleCursor} currentGif={this.state.currentGif} currentCursor={this.state.currentCursor} currentUser={this.state.currentUser}/>
           // <SearchBar handleSearch={this.handleSearch} handleCursor={this.handleCursor}/>
           }/>
         <Route path={'/login'} component={LoginPage} />
         <Route path={'/signup'} component={SignUpPage} />
         <Route path={'/feed'} render={routerProps => <Feed {...routerProps} currentUser={this.state.currentUser}/>}/>
         <Route path={'/'} component={HomePage} />
+        <Route component={FourOhFourPage} />
       </Switch>
     );
   }

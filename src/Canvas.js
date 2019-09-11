@@ -1,5 +1,7 @@
 import React from 'react'
 import SearchBar from './SearchBar'
+import { Link, Route } from 'react-router-dom'
+import Feed from './Feed'
 
 export default class Canvas extends React.Component{
 
@@ -55,9 +57,9 @@ export default class Canvas extends React.Component{
         this.props.history.push('./profile')
     }
 
-    gotToFeed = () =>{
-        this.props.history.push('./feed')
-    }
+    // gotToFeed = () =>{
+    //     this.props.history.push('./feed')
+    // }
 
 
     render(){
@@ -75,7 +77,10 @@ export default class Canvas extends React.Component{
             <SearchBar handleSearch={this.props.handleSearch} handleCursor={this.props.handleCursor}/>
             <button onClick={this.handleLike}>Like</button>
             <button onClick={this.profileButton}>Go To Profile</button>
-            <button onClick={this.gotToFeed}>Go To Feed</button>
+            <Link to={{pathname:"/feed", state: {currentUser: this.state.currentUser}}}>
+            <button onClick={this.gotToFeed} >Go To Feed</button>
+            <Route path={'/feed'} render={routerProps => <Feed {...routerProps} currentUser={this.state.currentUser}/>}/>
+            </Link>
             <button onClick={this.handleClick}>Logout</button>
             {/* {, backgroundSize: 'cover'} */}
         </div>

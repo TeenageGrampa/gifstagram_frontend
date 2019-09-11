@@ -5,7 +5,8 @@ export default class Image extends React.Component{
 
     state ={
         clicked: false,
-        likes: 0,
+        likes: [],
+        comments: []
     }
 
     handleInfoClick = () => {
@@ -15,26 +16,46 @@ export default class Image extends React.Component{
     }
 
     componentDidMount(){
+        fetch(`http://localhost:3000/gifs/${this.props.gif.id}`).then(r => r.json()).then(data => 
         this.setState({
-            likes: this.props.gif.likes.length
-        })
+            likes: data.likes,
+            comments: data.comments
+        }))
     }
 
     handleLike = (e) => {
         e.stopPropagation()
-        fetch(`http://localhost:3000/likes`,{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                gif_id: this.props.gif.id,
-                user_id: this.props.currentUser.id
+        const currentUserId = this.props.currentUser.id
+        const userLike = this.state.likes.filter(function(ele){
+            return ele.user_id === currentUserId
+        })
+        if(this.state.likes.includes(userLike[0])){
+            const newLikes = this.state.likes.filter(function(ele){
+                return ele !== userLike[0]
             })
-        }).then(r => r.json()).then(this.setState({
-            likes: this.state.likes + 1
-        }))
+            this.setState({
+                likes: newLikes
+            })
+            fetch(`http://localhost:3000/likes/${userLike[0].id}`,{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            }).then(r => r.json()).then()} else {
+            fetch(`http://localhost:3000/likes`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    gif_id: this.props.gif.id,
+                    user_id: this.props.currentUser.id
+                })
+            }).then(r => r.json()).then(data => this.setState({
+                likes: [...this.state.likes, data]
+            }))}
     }
 
     stopProp = (e) => {
@@ -44,15 +65,15 @@ export default class Image extends React.Component{
     
 
     render(){
-        // console.log(this.props)
+        // console.log(this.props.currentUser)
         return(
             <div onClick={this.handleInfoClick}>
                 <img key={this.props.gif.id} src={this.props.gif.url} width={600} alt=""/>
                 {this.state.clicked ? 
                 <div onClick={this.stopProp}>
-                    <p>likes: {this.state.likes}</p><button onClick={this.handleLike}>Like!</button>
+                    <p>likes: {this.state.likes.length}</p><button onClick={this.handleLike}>Like!</button>
                     <div>
-                        <Comments gif={this.props.gif} currentUser={this.props.currentUser}/>
+                        <Comments gif={this.props.gif} comments={this.state.comments} currentUser={this.props.currentUser}/>
                     </div>
                 </div>
                  : null}
