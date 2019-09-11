@@ -38,15 +38,16 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
-        <h1>Log in please!</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input onChange={this.handleChange} value={this.state.username} type="text" name="username"/>
-          <input onChange={this.handleChange} value={this.state.password} type="password" name="password"/>
-          <input type="submit" value="Log in"/>
+        <h1 className="title" style={{fontSize: 300}}>Log in please</h1>
+        <img src="https://gifimage.net/wp-content/uploads/2018/04/log-gif-5.gif" 
+          width='900'
+          height='600' alt=""/>
+        <form onSubmit={this.handleSubmit} className="field">
+          <input onChange={this.handleChange} value={this.state.username} type="text"  name="username" className="input"/>
+          <input onChange={this.handleChange} value={this.state.password} type="password" name="password" className="input"/>
+          <input type="submit" className="btn success" value="Log in"/>
         </form>
-        <p>Or Sign UP:
-          <button onClick={this.handleClick}>Sign Up</button>
-        </p>
+          <button onClick={this.handleClick} className="btn error">Sign Up</button>
       </div>
     );
   }

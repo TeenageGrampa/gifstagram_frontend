@@ -60,16 +60,17 @@ export default class Comments extends React.Component{
 
     render(){
         console.log(this.state.comments)
-        const comments = this.state.comments.map(comment => <li key={comment.id}>{comment.content} - {comment.author} <button value={comment.id} onClick={this.deleteClick}>X</button></li>)
+        const comments = this.state.comments.map(comment => <li style={{padding: 10}} key={comment.id}>{comment.content} - {comment.author} {this.props.currentUser.id === comment.user_id ? <button className="btn error" onClick={this.deleteClick}>X</button> : null}</li>)
         return(
             <div>
-                <p>comments:</p>
-                    <ul>{comments}</ul>
-                <form onSubmit={this.handleComment}>
-                        <label>New Comment </label>
+                <form onSubmit={this.handleComment} style={{padding: 20}}>
+                        <label style={{padding: 20}}>New Comment </label>
                         <input type="text" value={this.state.newComment} onChange={this.handleChange} />
                         <input type="submit" />
                 </form>
+                <div className="container dark" style={{margin: 20}}>
+                <p style={{padding: 20}}>comments:</p>
+                    <ul>{comments}</ul></div>
             </div>
         )
     }

@@ -70,8 +70,8 @@ export default class Image extends React.Component{
             <div onClick={this.handleInfoClick}>
                 <img key={this.props.gif.id} src={this.props.gif.url} width={600} alt=""/>
                 {this.state.clicked ? 
-                <div onClick={this.stopProp}>
-                    <p>likes: {this.state.likes.length}</p><button onClick={this.handleLike}>Like!</button>
+                <div onClick={this.stopProp} style={{padding: 10}}>
+                    <button className="btn error" onClick={this.handleLike}>Like!</button><p style={{padding: 20}}>likes: {this.state.likes.length}</p>
                     <div>
                         <Comments gif={this.props.gif} comments={this.state.comments} currentUser={this.props.currentUser}/>
                     </div>

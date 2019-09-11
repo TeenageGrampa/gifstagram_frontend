@@ -29,11 +29,25 @@ export default class Feed extends React.Component {
             })}
         fetch('http://localhost:3000/gifs')
         .then(r => r.json())
-        .then(gifs => {const filteredGifs = gifs.filter(gif => gif.likes.length > 0)
+        .then(gifs => {const filteredGifs = gifs.filter(gif => gif.likes.length > 0).reverse()
             this.setState({
             gifs: filteredGifs,
         })})
        
+    }
+
+    mostLiked = () => {
+        const filteredGifs = this.state.gifs.sort((a, b) => (a.likes.length > b.likes.length) ? -1 : 1)
+        this.setState({
+            gifs: filteredGifs
+        })
+    }
+
+    newestGifs = () => {
+        const filteredGifs = this.state.gifs.sort((a, b) => (a.created_at > b.created_at) ? -1 : 1)
+        this.setState({
+            gifs: filteredGifs
+        })
     }
 
     render() {
@@ -42,8 +56,10 @@ export default class Feed extends React.Component {
         const gifs = this.state.gifs.map(gif => <Image key={gif.id} currentUser={this.state.currentUser} gif={gif} width={600}/>) 
         return (
           <div>
-            <button onClick={this.handleClick}>Logout</button>
-            <button onClick={this.backToCanvas}>Back to Canvas</button>
+            <button onClick={this.handleClick} className="btn warning">Logout</button>
+            <button onClick={this.backToCanvas} className="btn error">Back to Canvas</button>
+            <button onClick={this.mostLiked} className="btn primary">Most Popular</button>
+            <button onClick={this.newestGifs} className="btn success">Newest</button>
             {gifs}
           </div>
         );

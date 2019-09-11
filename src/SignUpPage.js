@@ -36,11 +36,14 @@ export default class SignUpPage extends Component {
   render() {
     return (
       <div>
-        <h1>Signup please!</h1>
-        <form>
-          <input type="text" name="username" onChange={this.handleChange} value={this.state.username}/>
-          <input type="password" name="password" onChange={this.handleChange} value={this.state.password}/>
-          <input type="submit" value="Signup" onClick={this.handleSubmit}/>
+        <h1 className="title" style={{fontSize: 300}}>Signup please</h1>
+        <img src="https://i.pinimg.com/originals/67/4f/bf/674fbf76368bca2ebc0d06b7b5b5d29f.gif" 
+          width='900'
+          height='600' alt=""/>
+        <form className="field">
+          <input type="text" name="username" onChange={this.handleChange} value={this.state.username} className="input"/>
+          <input type="password" name="password" onChange={this.handleChange} value={this.state.password} className="input"/>
+          <input type="submit" value="Signup" onClick={this.handleSubmit} className="btn success"/>
         </form>
       </div>
     );

@@ -2,6 +2,7 @@ import React from 'react'
 import SearchBar from './SearchBar'
 import { Link, Route } from 'react-router-dom'
 import Feed from './Feed'
+import ProfilePage from './ProfilePage';
 
 export default class Canvas extends React.Component{
 
@@ -75,13 +76,16 @@ export default class Canvas extends React.Component{
             style={{ backgroundImage: `url(${image})`}} 
             className={this.props.currentCursor}/>
             <SearchBar handleSearch={this.props.handleSearch} handleCursor={this.props.handleCursor}/>
-            <button onClick={this.handleLike}>Like</button>
-            <button onClick={this.profileButton}>Go To Profile</button>
+            <button onClick={this.handleLike} className="btn error">Like</button>
+            <button onClick={this.handleClick} className="btn warning">Logout</button>
+            <Link to={{pathname:"/profile", state: {currentUser: this.state.currentUser}}}>
+            <button className="btn primary" style={{width: 900}}>Go To Profile</button>
+            <Route path={'/profile'} render={routerProps => <ProfilePage {...routerProps} currentUser={this.state.currentUser}/>}/>
+            </Link>
             <Link to={{pathname:"/feed", state: {currentUser: this.state.currentUser}}}>
-            <button onClick={this.gotToFeed} >Go To Feed</button>
+            <button className="btn success" style={{width: 900}}>Go To Feed</button>
             <Route path={'/feed'} render={routerProps => <Feed {...routerProps} currentUser={this.state.currentUser}/>}/>
             </Link>
-            <button onClick={this.handleClick}>Logout</button>
             {/* {, backgroundSize: 'cover'} */}
         </div>
         )

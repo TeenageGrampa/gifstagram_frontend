@@ -44,13 +44,13 @@ class ProfilePage extends Component {
       console.log(this.state.currentUser)
     return (
       <div>
-        <button onClick={this.handleClick}>Logout</button>
-        <Link to={{ path: 'feed', state: {currentUser: this.state.currentUser}}}><button onClick={this.gotToFeed}>Go To Feed</button></Link>
-        <button onClick={this.backToCanvas}>Back to Canvas</button>
+        <button className="btn warning" onClick={this.handleClick}>Logout</button>
+        <Link to={{ path: 'feed', state: {currentUser: this.state.currentUser}}} ><button className="btn primary" onClick={this.gotToFeed} style={{width: 900}}>Go To Feed</button></Link>
+        <button className="btn error" onClick={this.backToCanvas}>Back to Canvas</button><br></br>
         {
-          this.props.currentUser.username ?
-          <div><h1>Welcome {this.state.currentUser.username}!</h1>
-          <h2>Your favorite gifs:</h2></div> :
+          this.state.currentUser.username ?
+          <div className="title container"><h1>Welcome {this.state.currentUser.username}!</h1>
+          <h2 >Your favorite gifs:</h2></div> :
           <h1>getting your info...</h1>
         }
         {gifs}
